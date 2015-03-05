@@ -65,8 +65,12 @@
                     // for sessionStorage, even if the user has blocked all cookies/storage. However, security error then shows up when
                     // webStorage.length is called
                     webStorage.length;
+                    // In private browsing mode Safari disables setting of localStorage, even though localStorage is accessible.
+                    // To avoid 'Error: QuotaExceededError: DOM Exception 22', check to see if we can set a value and then remove it
+                    webStorage.setItem('webStorageTest', 1);
+                    webStorage.removeItem('webStorageTest');
                 } catch (e) {
-                    $log.warn('This browser does not support Web Storage!');
+                    $log.log('This browser does not support Web Storage, or Web Storage is disabled.');
 
                     var data = {},
                         undef;
